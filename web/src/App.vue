@@ -1,0 +1,42 @@
+<template>
+  <div>
+  <div>name: {{ bot_name }}</div>
+  <div>rating:{{ bot_rating }}</div>
+  </div>
+  <router-view></router-view>
+</template>
+
+<script>
+import { ref } from 'vue';
+import $ from 'jquery';
+
+export default {
+  name: "App",
+  setup: () => {
+    let bot_name = ref("");
+    let bot_rating = ref("");
+
+    $.ajax({
+      url: "http://127.0.0.1:3030/pk/getBotInfo/",
+      type: "get",
+      success: resp => {
+        bot_name.value = resp.name;
+        bot_rating.value = resp.rating;
+        // console.log(resp);
+      }
+    });
+
+    return {
+      bot_name,
+      bot_rating
+    }
+  }
+}
+</script>
+
+<style>
+body {
+  background-image: url("@/assets/paper.png");
+  background-size: cover;
+}
+</style>
